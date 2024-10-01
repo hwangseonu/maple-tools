@@ -70,12 +70,11 @@
   function handleDelete(event: CustomEvent) {
     const {index} = event.detail;
 
-    console.log(index)
-
-    characters.splice(index, 1);
+    if (index >= 0) {
+      characters.splice(index, 1);
     characters = characters
+    }
 
-    console.log(characters)
     closeModal();
   }
 </script>
