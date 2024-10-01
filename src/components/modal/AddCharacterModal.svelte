@@ -116,6 +116,8 @@
         box-sizing: border-box;
         border: 1px solid #ccc;
         border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
     }
 
     .modal-actions {

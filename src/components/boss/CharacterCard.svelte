@@ -87,6 +87,7 @@
 
     .boss-list {
         display: flex;
+        height: 52px;
         gap: 5px;
     }
 
