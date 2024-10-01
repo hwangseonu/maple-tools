@@ -1,48 +1,73 @@
 <script lang="ts">
-  import BossList from "$lib/bossList";
+  import BossList, {type BossDifficulty, type BossName, type BossType} from "$lib/bossList";
+
+  type SelectedBoss = {
+    name: BossName,
+    difficulty: BossDifficulty,
+    members: number
+  }
+  export let selected: SelectedBoss[];
 
   const max = 12;
-  let selectedItems: number[] = [];
 
-  function toggleSelect(index: number): void {
-    if (selectedItems.includes(index)) {
-      selectedItems = selectedItems.filter(i => i !== index); // 선택 해제
-    } else if (selectedItems.length < max) {
-      selectedItems = [...selectedItems, index]; // 선택 추가
-    } else {
-      // ignore
+  function toggleSelect(boss: BossType): void {
+    if (isSelected(boss)) {
+      selected = selected.filter((value) => value.name !== boss.name || value.difficulty !== boss.difficulty) //
+    } else if (selected.length < max) {
+      selected = [...selected, {name: boss.name, difficulty: boss.difficulty, members: 1}]; // 선택 추가
     }
+  }
+
+  function onChangeMembers(boss: BossType, event: Event) {
+    let index = selected.findIndex((value) => value.name === boss.name && value.difficulty === boss.difficulty);
+
+    if(index !== -1) {
+      let element = event.target as HTMLInputElement;
+      selected[index].members = element.valueAsNumber;
+    }
+  }
+
+  $: isSelected = (boss: { name: BossName, difficulty: BossDifficulty }): boolean => {
+    return selected.some((value) => value.name === boss.name && value.difficulty === boss.difficulty);
+  }
+
+  $: getMembers = (boss: { name: BossName, difficulty: BossDifficulty }): number => {
+    return selected.find((value) => value.name === boss.name && value.difficulty === boss.difficulty)?.members ?? 1;
   }
 </script>
 
 <!-- 리스트 렌더링 -->
 <div class="selectable-list">
-    <p>{selectedItems.length}/{max}</p>
+    <p>{selected.length}/{max}</p>
     <ul class="list">
-        {#each BossList as item, index}
-            <li class:selected={selectedItems.includes(index)}>
+        {#each BossList as boss}
+            <li class:selected={isSelected(boss)}>
                 <div class="item"
                      role="button"
                      tabindex="0"
                      on:keydown={null}
-                     on:click={() => toggleSelect(index)}>
+                     on:click={() => toggleSelect(boss)}>
 
                     <div class="boss-type">
-                        <img class="{item.difficulty}" src="/assets/images/boss/{item.name}.png" alt="boss"/>
+                        <img class="{boss.difficulty}" src="/assets/images/boss/{boss.name}.png" alt="boss"/>
                         <p class="boss-name">
-                            {item.name}
+                            {boss.name}
                         </p>
                     </div>
 
                     <div class="boss-difficult">
-                        <p class="badge {item.difficulty}">
-                            {item.difficulty.toUpperCase()}
+                        <p class="badge {boss.difficulty}">
+                            {boss.difficulty.toUpperCase()}
                         </p>
                     </div>
 
                     <div class="boss-crystal">
-                        <img src="/assets/images/crystal.png" alt="crystal"/>
-                        <p class="meso">{item.crystal.toLocaleString()} 메소</p>
+                        <div class="crystal">
+                            <img src="/assets/images/crystal.png" alt="crystal"/>
+                            <input class="members" type="number" value={getMembers(boss)}
+                                   on:input={(event) => onChangeMembers(boss, event)}/>
+                        </div>
+                        <p class="meso">{boss.crystal.toLocaleString()} 메소</p>
                     </div>
 
                 </div>
@@ -150,7 +175,7 @@
 
     .boss-crystal {
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
         font-size: small;
         font-weight: bold;
@@ -162,7 +187,12 @@
         margin-right: 5px;
     }
 
-    .boss-crystal p {
-        margin-top: 2px;
+    .boss-crystal .crystal {
+        display: flex;
+    }
+
+    .boss-crystal .members {
+        width: 20px;
+        text-align: center;
     }
 </style>

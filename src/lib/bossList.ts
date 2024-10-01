@@ -8,7 +8,7 @@ export type BossType = {
   "crystal": number
 }
 
-export const BossList = [
+export const BossList: BossType[] = [
   {
     "difficulty": "easy",
     "name": "시그너스",

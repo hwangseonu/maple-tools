@@ -1,24 +1,25 @@
 <script lang="ts">
-  import {createEventDispatcher} from 'svelte';
   import SelectableList from "./BossSelector.svelte";
+  import type {BossDifficulty, BossName} from "$lib/bossList";
+
+  type SelectedBoss = {
+      name: BossName,
+      difficulty: BossDifficulty,
+      members: number
+  }
+
+  let name: string = '';
+  let selected: SelectedBoss[] = [];
 
   export let isOpen: boolean = false; // 모달 열림 상태
   $: if (!isOpen) { // 모달이 닫히면 값을 초기화
     name = "";
+    selected = [];
   }
 
   export let onClose: () => void;
 
-  let name: string = '';
-  let bosslist: { }
-
-  const dispatch = createEventDispatcher();
-
   function handleSubmit() {
-    // 제출 로직 (예: 서버에 데이터 전송)
-
-    // 제출 후 모달 닫기
-    dispatch('submit', {name});
     onClose(); // 모달 닫기
   }
 
@@ -37,7 +38,7 @@
                 <div class="form-group">
                     <input type="text" id="name" bind:value={name} placeholder="캐릭터 이름" required/>
                 </div>
-                <SelectableList />
+                <SelectableList bind:selected={selected}/>
                 <div class="modal-actions">
                     <button type="button" class="cancel" on:click={onClose}>취소</button>
                     <button type="submit" class="submit">추가</button>
