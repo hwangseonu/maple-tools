@@ -97,6 +97,11 @@
         height: 500px;
     }
 
+    .list::-webkit-scrollbar-thumb {
+        background-color: var(--accent-color); /* 스크롤바 색상 */
+        border-radius: 10px; /* 모서리 둥글게 */
+    }
+
     .item {
         display: flex;
         justify-content: space-between;
@@ -193,7 +198,7 @@
 
     .boss-crystal {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         font-size: small;
         font-weight: bold;
