@@ -23,7 +23,6 @@
   function onChangeMembers(boss: BossType, event: Event) {
     let index = selected.findIndex((value) => value.name === boss.name && value.difficulty === boss.difficulty);
 
-    console.log(index)
     if (index !== -1) {
       let element = event.target as HTMLSelectElement;
       selected[index].members = Number(element.value);
@@ -74,6 +73,7 @@
                         <div class="crystal">
                             <img src="/assets/images/crystal.png" alt="crystal"/>
                             <select class="members"
+                                    disabled={!isSelected(boss)}
                                     on:click|stopPropagation
                                     on:change={(event) => onChangeMembers(boss, event)}>
                                 {#each Array(6).fill(0).map((_, i) => i + 1) as number}
