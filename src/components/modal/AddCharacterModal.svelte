@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import SelectableList from "./BossSelector.svelte";
   import type {BossDifficulty, BossName} from "$lib/bossList";
 
@@ -8,6 +9,7 @@
       members: number
   }
 
+  const dispatch = createEventDispatcher();
   let name: string = '';
   let selected: SelectedBoss[] = [];
 
@@ -20,6 +22,7 @@
   export let onClose: () => void;
 
   function handleSubmit() {
+    dispatch('submit', { name, selected })
     onClose(); // 모달 닫기
   }
 

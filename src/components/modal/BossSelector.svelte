@@ -23,9 +23,10 @@
   function onChangeMembers(boss: BossType, event: Event) {
     let index = selected.findIndex((value) => value.name === boss.name && value.difficulty === boss.difficulty);
 
-    if(index !== -1) {
-      let element = event.target as HTMLInputElement;
-      selected[index].members = element.valueAsNumber;
+    console.log(index)
+    if (index !== -1) {
+      let element = event.target as HTMLSelectElement;
+      selected[index].members = Number(element.value);
     }
   }
 
@@ -72,8 +73,13 @@
                     <div class="boss-crystal">
                         <div class="crystal">
                             <img src="/assets/images/crystal.png" alt="crystal"/>
-                            <input class="members" type="number" value={getMembers(boss)}
-                                   on:input={(event) => onChangeMembers(boss, event)}/>
+                            <select class="members"
+                                    on:click|stopPropagation
+                                    on:change={(event) => onChangeMembers(boss, event)}>
+                                {#each Array(6).fill(0).map((_, i) => i + 1) as number}
+                                    <option value={number} selected={getMembers(boss) === number}>{number}</option>
+                                {/each}
+                            </select>
                         </div>
                         <p class="meso">{boss.crystal.toLocaleString()} 메소</p>
                     </div>
@@ -204,7 +210,14 @@
     }
 
     .boss-crystal .members {
-        width: 20px;
         text-align: center;
+        border: 2px solid var(--primary-color);
+        border-radius: 5px;
+        transition: border-color 0.3s;
+    }
+
+    .boss-crystal .members:focus {
+        border-color: var(--secondary-color);
+        outline: none;
     }
 </style>

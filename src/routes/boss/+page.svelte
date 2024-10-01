@@ -7,8 +7,8 @@
   const closeModal = () => showModal = false;
 
   function handleSubmit(event: CustomEvent) {
-    const { name, email } = event.detail;
-    console.log("Submitted Data:", { name, email });
+    const { name, selected } = event.detail;
+    console.log("Submitted Data:", { name, selected });
   }
 </script>
 
