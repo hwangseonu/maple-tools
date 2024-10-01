@@ -1,14 +1,11 @@
 <script lang="ts">
-  import BossList, {type BossDifficulty, type BossName, type BossType} from "$lib/bossList";
+  import Boss, {type BossDifficulty, type BossName} from "$lib/boss";
+  import type {BossCrystal} from "$lib/types";
 
-  type SelectedBoss = {
-    name: BossName,
-    difficulty: BossDifficulty,
-    members: number
-  }
-  export let selected: SelectedBoss[];
-
+  export let selected: BossCrystal[];
   const max = 12;
+
+  type BossType = { name: BossName, difficulty: BossDifficulty }
 
   function toggleSelect(boss: BossType): void {
     if (!isSelectable(boss)) return;
@@ -35,11 +32,11 @@
     return selected.length < max;
   }
 
-  $: isSelected = (boss: { name: BossName, difficulty: BossDifficulty }): boolean => {
+  $: isSelected = (boss: BossType): boolean => {
     return selected.some((value) => value.name === boss.name && value.difficulty === boss.difficulty);
   }
 
-  $: getMembers = (boss: { name: BossName, difficulty: BossDifficulty }): number => {
+  $: getMembers = (boss:BossType): number => {
     return selected.find((value) => value.name === boss.name && value.difficulty === boss.difficulty)?.members ?? 1;
   }
 </script>
@@ -48,7 +45,7 @@
 <div class="selectable-list">
     <p>{selected.length}/{max}</p>
     <ul class="list">
-        {#each BossList as boss}
+        {#each Boss as boss}
             <li class:selected={isSelected(boss)} class:unselectable={!isSelectable(boss)}>
                 <div class="item"
                      role="button"

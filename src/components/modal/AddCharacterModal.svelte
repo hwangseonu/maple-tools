@@ -1,29 +1,32 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import {createEventDispatcher} from 'svelte';
   import SelectableList from "./BossSelector.svelte";
-  import type {BossDifficulty, BossName} from "$lib/bossList";
+  import type {BossCrystal} from "$lib/types";
 
-  type SelectedBoss = {
-      name: BossName,
-      difficulty: BossDifficulty,
-      members: number
-  }
-
-  const dispatch = createEventDispatcher();
-  let name: string = '';
-  let selected: SelectedBoss[] = [];
-
+  // props
+  export let onClose: () => void;
   export let isOpen: boolean = false; // 모달 열림 상태
   $: if (!isOpen) { // 모달이 닫히면 값을 초기화
     name = "";
     selected = [];
   }
 
-  export let onClose: () => void;
+  // state
+  export let name: string;
+  export let selected: BossCrystal[];
+  export let mode: 'edit' | 'add';
+  export let index: number;
 
+  // utils
+  const dispatch = createEventDispatcher();
+
+  // functions
   function handleSubmit() {
-    dispatch('submit', { name, selected })
-    onClose(); // 모달 닫기
+    dispatch('submit', {name, selected})
+  }
+
+  function handleDelete() {
+    dispatch('delete', {index})
   }
 
   function onKeydown(event: KeyboardEvent) {
@@ -38,13 +41,21 @@
     <div class="modal-overlay" on:click={onClose} role="button" tabindex="0" on:keydown={onKeydown}>
         <div class="modal" on:click|stopPropagation role="button" tabindex="0" on:keydown={null}>
             <form on:submit|preventDefault={handleSubmit}>
-                <div class="form-group">
-                    <input type="text" id="name" bind:value={name} placeholder="캐릭터 이름" required/>
+                <div class="form-header">
+                    <input type="text" bind:value={name} placeholder="캐릭터 이름" required/>
+                    <div class="buttons">
+                        <button type="button" class="delete-button" on:click={handleDelete}>
+                            <i class="fas fa-trash"/>
+                        </button>
+                        <button type="button" class="close-button" on:click={onClose}>
+                            <i class="fas fa-times"/>
+                        </button>
+                    </div>
                 </div>
                 <SelectableList bind:selected={selected}/>
                 <div class="modal-actions">
                     <button type="button" class="cancel" on:click={onClose}>취소</button>
-                    <button type="submit" class="submit">추가</button>
+                    <button type="submit" class="submit">{ mode === "edit" ? "저장" : "추가" }</button>
                 </div>
             </form>
         </div>
@@ -75,12 +86,32 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    .form-group {
+    .form-header {
+        display: flex;
+        justify-content: space-between;
         margin-bottom: 15px;
     }
 
-    input {
-        width: 100%;
+    .form-header button {
+        background: none;
+        box-shadow: none;
+        font-size: 30px;
+    }
+
+    .form-header .delete-button {
+        color: var(--complementary-pink);
+    }
+
+    .form-header .delete-button:hover {
+        color: var(--complementary-pink-darker);
+    }
+
+    .form-header button:hover {
+        background: var(--neutral-dark);
+    }
+
+    .form-header input {
+        width: 300px;
         padding: 10px;
         box-sizing: border-box;
         border: 1px solid #ccc;

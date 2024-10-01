@@ -1,34 +1,11 @@
 <script lang="ts">
-  import bossList, {type BossDifficulty, type BossName} from "$lib/bossList";
+  import {createEventDispatcher} from "svelte";
+  import bossList, {type BossDifficulty, type BossName} from "$lib/boss";
+  import type {Character} from "$lib/types";
 
-  interface Boss {
-    name: BossName,
-    difficulty: BossDifficulty,
-    members: number,
-  }
+  export let character: Character;
 
-  interface Character {
-    name: string,
-    image: string,
-    boss: Boss[],
-  }
-
-  export let character: Character = {
-    name: "머대리하일",
-    image: "https://open.api.nexon.com/static/maplestory/Character/AILDDHLLEPCGNFKJLALIEEDJKNGNCGNMKHFPBIHJBPOAAGKKGFMEMGCLKAGOPLEIONFKBEDNHIGAGCNEOJICOBGEGBOLKNDPIAJGMHHKPNMOMNKBHBDBNKLLOPBLLBMEOJNNGCDDABHMFHLHHMOBEBIKKGOFKJIOIHJHIIKAANKMJMMLFEHMDLAOAGGKIMBNHLBLIGONKJEJEGOIKJFJLNFLPMDOHFNPGFMLOODJDOAHDJJELKHEBKBJJMCCPLFN.png",
-    boss: [
-      {
-        name: "자쿰",
-        difficulty: "easy",
-        members: 1,
-      },
-      {
-        name: "매그너스",
-        difficulty: "hard",
-        members: 2,
-      }
-    ],
-  };
+  const dispatch = createEventDispatcher();
 
   $: boss = character.boss.map((b) => {
     return ({
@@ -39,9 +16,13 @@
     })
   })
 
+  function onClick() {
+    dispatch("click")
+  }
+
 </script>
 
-<div class="card">
+<div role="button" tabindex="0" on:keydown={null} class="card" on:click={onClick}>
     <img src={character.image} alt="Character" class="card-image"/>
     <div class="card-content">
         <h2>{character.name}</h2>
@@ -83,8 +64,10 @@
     }
 
     .card-image {
-        width: 80px; /* 이미지의 크기를 작게 조정 */
-        height: 80px;
+        min-width: 80px; /* 이미지의 크기를 작게 조정 */
+        min-height: 80px;
+        max-width: 80px; /* 이미지의 크기를 작게 조정 */
+        max-height: 80px;
         border-radius: 8px;
         margin-right: 15px; /* 이미지와 타이틀 사이 간격 */
         object-fit: cover; /* 이미지가 비율을 유지하며 잘리도록 설정 */
