@@ -1,0 +1,75 @@
+:root {
+    /* Primary Colors */
+    --primary-color: #CFF2D6; /* 파스텔톤 녹색 (배경색) */
+    --secondary-color: #B0E57C; /* 진한 녹색 */
+
+    /* Accent Color */
+    --accent-color: #8FCF6A; /* 버튼 및 강조 요소 색상 */
+
+    /* Text Colors */
+    --text-primary: #3A3A3A; /* 본문 텍스트용 진한 그레이 */
+    --text-secondary: #2C6A2C; /* 헤더 및 강조 텍스트용 진한 녹색 */
+
+    /* Complementary Colors */
+    --complementary-pink: #FFC1CC; /* 파스텔 핑크 (보조 색상) */
+    --complementary-pink-darker: #ff849e;
+    --complementary-yellow: #FFF5B7; /* 파스텔 옐로우 (보조 색상) */
+
+    /* Neutral Colors */
+    --neutral-light: #F5F5F5; /* 밝은 중립색 (섹션 구분 등) */
+    --neutral-dark: #D3D3D3; /* 중립적인 회색 */
+
+    --easy-background: rgb(153, 153, 153);
+    --easy-border: rgb(153, 153, 153);
+
+    --normal-background: rgb(51, 170, 187);
+    --normal-border: rgb(51, 170, 187);
+
+    --hard-background: rgb(221, 68, 137);
+    --hard-border: rgb(221, 68, 137);
+
+
+    --chaos-background: rgb(68, 68, 68);
+    --chaos-border: rgb(221, 187, 136);
+
+    --extreme-background: rgb(68, 68, 68);
+    --extreme-border: rgb(238, 51, 85);
+}
+
+html, body, p {
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    background: var(--primary-color);
+    color: var(--text-secondary);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+button:hover {
+    background-color: var(--accent-color); /* 호버 시 색상 변경 */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* 그림자 강화 */
+    transform: translateY(-2px); /* 살짝 위로 이동 */
+}
+
+button:active {
+    transform: scale(0.98); /* 클릭 시 살짝 눌리는 효과 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 감소 */
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    cursor: pointer;
+    padding: 10px;
+}
