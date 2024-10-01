@@ -11,10 +11,12 @@
   const max = 12;
 
   function toggleSelect(boss: BossType): void {
+    if (!isSelectable(boss)) return;
+
     if (isSelected(boss)) {
-      selected = selected.filter((value) => value.name !== boss.name || value.difficulty !== boss.difficulty) //
-    } else if (selected.length < max) {
-      selected = [...selected, {name: boss.name, difficulty: boss.difficulty, members: 1}]; // 선택 추가
+      selected = selected.filter((value) => value.name !== boss.name || value.difficulty !== boss.difficulty)
+    } else {
+      selected = [...selected, {name: boss.name, difficulty: boss.difficulty, members: 1}];
     }
   }
 
@@ -25,6 +27,12 @@
       let element = event.target as HTMLInputElement;
       selected[index].members = element.valueAsNumber;
     }
+  }
+
+  $: isSelectable = (boss: BossType): boolean => {
+    if (isSelected(boss)) return true;
+    if (selected.some((v) => v.name === boss.name)) return false;
+    return selected.length < max;
   }
 
   $: isSelected = (boss: { name: BossName, difficulty: BossDifficulty }): boolean => {
@@ -41,7 +49,7 @@
     <p>{selected.length}/{max}</p>
     <ul class="list">
         {#each BossList as boss}
-            <li class:selected={isSelected(boss)}>
+            <li class:selected={isSelected(boss)} class:unselectable={!isSelectable(boss)}>
                 <div class="item"
                      role="button"
                      tabindex="0"
@@ -90,6 +98,10 @@
 
     .selected {
         background-color: var(--primary-color);
+    }
+
+    .unselectable {
+        opacity: 50%;
     }
 
     li.selected:hover {
@@ -179,7 +191,7 @@
         align-items: center;
         font-size: small;
         font-weight: bold;
-        width: 150px;
+        width: 180px;
     }
 
     .boss-crystal img {
