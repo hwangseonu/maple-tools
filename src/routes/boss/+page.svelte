@@ -4,6 +4,7 @@
   import CharacterList from "../../components/boss/CharacterList.svelte";
   import AddCharacterModal from "../../components/modal/AddCharacterModal.svelte";
   import CharacterAggregation from "../../components/boss/CharacterAggregation.svelte";
+  import {getProfileImage} from "$lib/utils";
 
   // state
   let showModal: boolean = false;
@@ -34,19 +35,10 @@
   }
 
   // functions
-  async function getCharacterImage(characterName: string): Promise<string> {
-    try {
-      const response = await fetch("/api/character/image?character=" + characterName);
-      return await response.text()
-    } catch (e) {
-      return ""
-    }
-  }
-
   async function handleSubmit(event: CustomEvent) {
     const {name, selected} = event.detail;
 
-    const image = await getCharacterImage(name);
+    const image = await getProfileImage(name);
 
     let character = {
       id: name,
@@ -58,7 +50,7 @@
 
     if (currentCharacter != undefined) {
       const index = characters.findIndex((value) => value.name === currentCharacter?.name);
-      characters[index] = character
+      characters[index] = character;
     } else if (characters.some((value) => value.name === name)) {
       alert("같은 이름의 캐릭터를 등록할 수 없습니다.");
     } else {

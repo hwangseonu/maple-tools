@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let items: { name: string, path: string, image: string }[] = [];
+  export let items: { name: string, path: string, image: string | undefined }[] = [];
   export let currentPath = "/";
 
   function setCurrentPath(path: string) {
@@ -11,9 +11,13 @@
     {#each items as item, index}
         <a on:click={() => setCurrentPath(item.path)} href={item.path}>
             <div class="item" class:selected={currentPath === item.path}>
-                <img src={item.image} alt={item.name}/>
+                {#if item.image !== undefined}
+                    <img src={item.image} alt={item.name}/>
+                {/if}
                 {item.name}
+
             </div>
+            <hr />
         </a>
     {/each}
 </nav>
@@ -36,6 +40,7 @@
     }
 
     .item {
+        height: 62px;
         display: flex;
         align-items: center;
         width: 100%;
@@ -59,5 +64,9 @@
     .selected {
         background: var(--neutral-dark);
         color: var(--text-secondary);
+    }
+
+    hr {
+        border: 1px solid var(--neutral-dark)
     }
 </style>
