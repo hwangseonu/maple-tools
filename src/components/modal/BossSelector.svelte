@@ -1,6 +1,6 @@
 <script lang="ts">
   import Boss, {type BossDifficulty, type BossName} from "$lib/boss";
-  import type {BossCrystal} from "$lib/types";
+  import {type BossCrystal, emptyFunction} from "$lib/types";
 
   export let selected: BossCrystal[];
   const max = 12;
@@ -50,7 +50,7 @@
                 <div class="item"
                      role="button"
                      tabindex="0"
-                     on:keydown={null}
+                     on:keydown={emptyFunction}
                      on:click={() => toggleSelect(boss)}>
 
                     <div class="boss-type">

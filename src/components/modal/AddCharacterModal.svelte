@@ -1,7 +1,7 @@
 <script lang="ts">
   import {createEventDispatcher} from 'svelte';
   import SelectableList from "./BossSelector.svelte";
-  import type {BossCrystal} from "$lib/types";
+  import {type BossCrystal, type Character, emptyFunction} from "$lib/types";
 
   // props
   export let onClose: () => void;
@@ -12,10 +12,10 @@
   }
 
   // state
+  export let current: Character | undefined;
   export let name: string;
   export let selected: BossCrystal[];
   export let mode: 'edit' | 'add';
-  export let index: number;
 
   // utils
   const dispatch = createEventDispatcher();
@@ -26,7 +26,7 @@
   }
 
   function handleDelete() {
-    dispatch('delete', {index})
+    dispatch('delete', { character: current })
   }
 
   function onKeydown(event: KeyboardEvent) {
@@ -38,8 +38,8 @@
 </script>
 
 {#if isOpen}
-    <div class="modal-overlay" on:click={onClose} role="button" tabindex="0" on:keydown={onKeydown}>
-        <div class="modal" on:click|stopPropagation role="button" tabindex="0" on:keydown={null}>
+    <div class="overlay" on:click={onClose} role="button" tabindex="0" on:keydown={onKeydown}>
+        <div class="modal" on:click|stopPropagation role="button" tabindex="0" on:keydown={emptyFunction}>
             <form on:submit|preventDefault={handleSubmit}>
                 <div class="form-header">
                     <input type="text" bind:value={name} placeholder="캐릭터 이름" required/>
@@ -64,7 +64,7 @@
 
 
 <style>
-    .modal-overlay {
+    .overlay {
         position: fixed;
         top: 0;
         left: 0;

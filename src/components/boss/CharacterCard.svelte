@@ -1,20 +1,14 @@
 <script lang="ts">
   import {createEventDispatcher} from "svelte";
   import bossList, {type BossDifficulty, type BossName} from "$lib/boss";
-  import type {Character} from "$lib/types";
+  import {type Character, emptyFunction} from "$lib/types";
+  import ToggleSwitch from "../common/ToggleSwitch.svelte";
+  import {crystalSum} from "$lib/utils";
 
   export let character: Character;
+  export let toggle: boolean;
 
   const dispatch = createEventDispatcher();
-
-  $: boss = character.boss.map((b) => {
-    return ({
-      name: b.name,
-      difficulty: b.difficulty,
-      members: b.members,
-      crystal: bossList.find(({name, difficulty}) => name == b.name && difficulty == b.difficulty)?.crystal ?? 0
-    })
-  })
 
   function onClick() {
     dispatch("click")
@@ -22,7 +16,7 @@
 
 </script>
 
-<div role="button" tabindex="0" on:keydown={null} class="card" on:click={onClick}>
+<div role="button" tabindex="0" on:keydown={emptyFunction} class="card" on:click={onClick}>
     <img src={character.image} alt="Character" class="card-image"/>
     <div class="card-content">
         <h2>{character.name}</h2>
@@ -37,13 +31,14 @@
             {/each}
         </div>
         <div class="sum">
+            <ToggleSwitch bind:checked={toggle} />
             <div class="crystal">
                 <img src="/assets/images/crystal.png" alt="crystal"/>
                 <span class="amount">{character.boss.length}개</span>
             </div>
             <div class="meso">
                 <img src="/assets/images/meso.png" alt="meso"/>
-                <span class="amount">{boss.reduce((acc, prev) => acc + prev.crystal / prev.members, 0).toLocaleString()} 메소</span>
+                <span class="amount">{crystalSum(character).toLocaleString()} 메소</span>
             </div>
         </div>
     </div>
@@ -163,12 +158,14 @@
 
     .sum .crystal, .sum .meso {
         display: flex;
+        align-items: center;
         font-size: small;
         font-weight: bold;
     }
 
     .crystal img, .meso img {
         width: 15px;
+        object-fit: contain;
         margin-right: 5px;
     }
 

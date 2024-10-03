@@ -41,6 +41,10 @@ html, body, p {
     margin: 0;
 }
 
+* {
+    color: var(--text-primary);
+}
+
 button {
     background: var(--primary-color);
     color: var(--text-secondary);
@@ -72,5 +76,6 @@ li {
     list-style: none;
     cursor: pointer;
     padding: 10px;
+    box-sizing: border-box;
 }
 

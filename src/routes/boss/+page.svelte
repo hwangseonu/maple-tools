@@ -1,24 +1,24 @@
 <script lang="ts">
-  import CharacterCard from "../../components/boss/CharacterCard.svelte";
-  import AddCharacterModal from "../../components/modal/AddCharacterModal.svelte";
   import type {Character} from "$lib/types";
   import {onMount} from "svelte";
+  import CharacterList from "../../components/boss/CharacterList.svelte";
+  import AddCharacterModal from "../../components/modal/AddCharacterModal.svelte";
+  import CharacterAggregation from "../../components/boss/CharacterAggregation.svelte";
 
   // state
   let showModal: boolean = false;
 
-  let currentIndex: number = -1;
-  let characters: Character[] = []
-  $: currentCharacter = currentIndex >= 0 ? characters[currentIndex] : undefined;
+  let characters: Character[] = [];
+  let currentCharacter: Character | undefined;
 
   // utils
-  const openModal = (index: number) => {
+  const openModal = (character: Character | undefined) => {
     showModal = true;
-    currentIndex = index
+    currentCharacter = character
   }
   const closeModal = () => {
     showModal = false;
-    currentIndex = -1;
+    currentCharacter = undefined;
   }
 
   onMount(() => {
@@ -37,7 +37,6 @@
   async function getCharacterImage(characterName: string): Promise<string> {
     try {
       const response = await fetch("/api/character/image?character=" + characterName);
-      console.log(response)
       return await response.text()
     } catch (e) {
       return ""
@@ -50,53 +49,85 @@
     const image = await getCharacterImage(name);
 
     let character = {
+      id: name,
       name: name,
       image: image,
       boss: selected,
+      toggle: false,
     }
 
-    if (currentIndex >= 0) {
-      characters[currentIndex] = character
+    if (currentCharacter != undefined) {
+      const index = characters.findIndex((value) => value.name === currentCharacter?.name);
+      characters[index] = character
     } else if (characters.some((value) => value.name === name)) {
       alert("같은 이름의 캐릭터를 등록할 수 없습니다.");
     } else {
       characters = [...characters, character]
     }
-    console.log(characters)
-    console.log("Submitted Data:", {name, selected});
     closeModal()
   }
 
   function handleDelete(event: CustomEvent) {
-    const {index} = event.detail;
+    const { character } = event.detail;
+
+    if (!character) return;
+
+    const index = characters.findIndex((value) => value.name == character?.name);
 
     if (index >= 0) {
       characters.splice(index, 1);
-    characters = characters
+      characters = characters
     }
 
     closeModal();
   }
+
+  function handleClickItem(event: CustomEvent) {
+    const { target } = event.detail;
+
+    openModal(target as Character);
+  }
+
+  function handleDisableAll(event: CustomEvent) {
+    characters = characters.map((character) => ({
+      ...character,
+      toggle: false
+    }))
+  }
 </script>
 
-<div>
+<div class="wrapper">
     <AddCharacterModal
+            current={currentCharacter}
             name={currentCharacter?.name ?? ""}
             selected={currentCharacter?.boss ?? []}
-            index={currentIndex}
             mode={currentCharacter ? "edit" : "add"}
             isOpen={showModal}
             onClose={closeModal}
             on:submit={handleSubmit}
             on:delete={handleDelete}
     />
-    {#each characters as character, index}
-        <CharacterCard character={character} on:click={() => openModal(index)}/>
-    {/each}
-    <button on:click={() => openModal(-1)}>캐릭터 추가</button>
+    <div class="contents">
+        <CharacterList bind:items={characters} on:click={handleClickItem}/>
+        <button on:click={() => openModal(undefined)}>캐릭터 추가</button>
+    </div>
+
+    <CharacterAggregation characters={characters} on:disableAll={handleDisableAll}/>
 </div>
 
 <style>
+    .wrapper {
+    }
+
+    .contents {
+        margin-right: 16px;
+        float: left;
+    }
+
+    button {
+        margin-top: 10px;
+        width: 100%;
+    }
 </style>
 
 
