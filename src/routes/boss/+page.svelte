@@ -38,7 +38,7 @@
   async function handleSubmit(event: CustomEvent) {
     const {name, selected} = event.detail;
 
-    const image = await getProfileImage(name);
+    const image = await getProfileImage(name) ?? "./assets/images/character_default.png";
 
     let character = {
       id: name,

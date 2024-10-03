@@ -19,13 +19,13 @@
 
 <div class="setting-form">
     <form on:submit={handleSubmit}>
-        <div>
+        <div class="form-wrapper">
             <h2>넥슨 OPEN API</h2>
-            <div>
+            <div class="form-input">
                 <label for="nexon-api-url">URL: </label>
                 <input id="nexon-api-url" bind:value={setting.NEXON_API_URL}/>
             </div>
-            <div>
+            <div class="form-input">
                 <label for="nexon-api-token">API KEY: </label>
                 <input id="nexon-api-token" bind:value={setting.NEXON_API_TOKEN}/>
             </div>
@@ -35,5 +35,17 @@
 </div>
 
 <style>
+    h2 {
+        margin: 0;
+    }
 
+    .form-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    button[type="submit"] {
+        margin-top: 16px;
+    }
 </style>
