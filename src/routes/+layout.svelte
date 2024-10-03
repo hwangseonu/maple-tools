@@ -9,8 +9,10 @@
     $: title = items.find((value) => value.path === currentPath)?.name ?? ""
 
     let items = [
-      {name: "주간보스 결정", path: "./boss", image: "./assets/images/crystal.png"},
-      {name: "설정", path: "./setting", image: './assets/images/setting.png'}
+      {name: "주간보스 결정", path: "./boss", image: "./assets/images/navigation/crystal.png"},
+      {name: "메이플지지", path: "https://maple.gg/", image: './assets/images/navigation/maplegg.png'},
+      {name: "환산주스탯", path: "https://maplescouter.com/", image: './assets/images/navigation/maplescouter.png'},
+      {name: "설정", path: "./setting", image: './assets/images/navigation/setting.png'},
     ]
 
     onMount(() => {
