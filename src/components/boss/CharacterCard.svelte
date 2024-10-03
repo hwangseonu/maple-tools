@@ -23,7 +23,7 @@
         <div class="boss-list">
             {#each character.boss as boss}
                 <div class="card-boss">
-                    <img class="{boss.difficulty}" src="/assets/images/boss/{boss.name}.png" alt="Boss"/>
+                    <img class="{boss.difficulty}" src="./assets/images/boss/{boss.name}.png" alt="Boss"/>
                     <p class="badge {boss.difficulty}">
                         {boss.difficulty[0].toUpperCase()}
                     </p>
@@ -33,11 +33,11 @@
         <div class="sum">
             <ToggleSwitch bind:checked={toggle} />
             <div class="crystal">
-                <img src="/assets/images/crystal.png" alt="crystal"/>
+                <img src="./assets/images/crystal.png" alt="crystal"/>
                 <span class="amount">{character.boss.length}개</span>
             </div>
             <div class="meso">
-                <img src="/assets/images/meso.png" alt="meso"/>
+                <img src="./assets/images/meso.png" alt="meso"/>
                 <span class="amount">{crystalSum(character).toLocaleString()} 메소</span>
             </div>
         </div>

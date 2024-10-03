@@ -54,7 +54,7 @@
                      on:click={() => toggleSelect(boss)}>
 
                     <div class="boss-type">
-                        <img class="{boss.difficulty}" src="/assets/images/boss/{boss.name}.png" alt="boss"/>
+                        <img class="{boss.difficulty}" src="./assets/images/boss/{boss.name}.png" alt="boss"/>
                         <p class="boss-name">
                             {boss.name}
                         </p>
@@ -68,7 +68,7 @@
 
                     <div class="boss-crystal">
                         <div class="crystal">
-                            <img src="/assets/images/crystal.png" alt="crystal"/>
+                            <img src="./assets/images/crystal.png" alt="crystal"/>
                             <select class="members"
                                     disabled={!isSelected(boss)}
                                     on:click|stopPropagation

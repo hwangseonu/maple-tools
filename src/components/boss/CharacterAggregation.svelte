@@ -24,11 +24,11 @@
 
 <div class="wrapper">
     <div class="crystal">
-        <img src="/assets/images/crystal.png" alt="crystal"/>
+        <img src="./assets/images/crystal.png" alt="crystal"/>
         <span>{aggregate.crystal.count} / {aggregate.crystal.max}</span>
     </div>
     <div class="meso">
-        <img src="/assets/images/meso.png" alt="meso" />
+        <img src="./assets/images/meso.png" alt="meso" />
         <span>{aggregate.crystal.sum.toLocaleString()} 메소</span>
     </div>
     <button type="button" on:click={handleDisableAll}>일괄 해제</button>
