@@ -14,7 +14,7 @@
     ]
 
     onMount(() => {
-      currentPath = "." + window.location.pathname;
+      currentPath = "." + window.location.pathname.replace('/maple-tools', '');
     });
 </script>
 
