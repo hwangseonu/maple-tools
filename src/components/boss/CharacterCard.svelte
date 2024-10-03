@@ -31,15 +31,17 @@
             {/each}
         </div>
         <div class="sum">
-            <ToggleSwitch bind:checked={toggle} />
-            <div class="crystal">
-                <img src="./assets/images/crystal.png" alt="crystal"/>
-                <span class="amount">{character.boss.length}개</span>
+            <div class="crystal-meso">
+                <div class="crystal">
+                    <img src="./assets/images/crystal.png" alt="crystal"/>
+                    <span class="amount">{character.boss.length}개</span>
+                </div>
+                <div class="meso">
+                    <img src="./assets/images/meso.png" alt="meso"/>
+                    <span class="amount">{crystalSum(character).toLocaleString()} 메소</span>
+                </div>
             </div>
-            <div class="meso">
-                <img src="./assets/images/meso.png" alt="meso"/>
-                <span class="amount">{crystalSum(character).toLocaleString()} 메소</span>
-            </div>
+            <ToggleSwitch bind:checked={toggle}/>
         </div>
     </div>
 </div>
@@ -153,7 +155,13 @@
         margin-top: 15px;
         display: flex;
         justify-content: end;
-        gap:15px;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .crystal-meso {
+        display: flex;
+        flex-direction: column;
     }
 
     .sum .crystal, .sum .meso {
