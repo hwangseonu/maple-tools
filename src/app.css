@@ -45,7 +45,21 @@ html, body, p {
 
 * {
     color: var(--text-primary);
-    font-family: 'nanumsquare';
+    font-family: 'nanumsquare', serif;
+}
+
+input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #4caf50; /* 녹색 테두리로 변경 */
+    outline: none;
 }
 
 button {

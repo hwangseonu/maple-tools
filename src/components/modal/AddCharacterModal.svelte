@@ -92,6 +92,12 @@
         margin-bottom: 15px;
     }
 
+    .form-header .buttons {
+        margin-left: 10px;
+        display: flex;
+        gap: 10px;
+    }
+
     .form-header button {
         background: none;
         box-shadow: none;
@@ -108,16 +114,6 @@
 
     .form-header button:hover {
         background: var(--neutral-dark);
-    }
-
-    .form-header input {
-        width: 300px;
-        padding: 10px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-        font-weight: bold;
     }
 
     .modal-actions {
