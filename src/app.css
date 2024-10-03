@@ -1,3 +1,5 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
 :root {
     /* Primary Colors */
     --primary-color: #CFF2D6; /* 파스텔톤 녹색 (배경색) */
@@ -43,6 +45,7 @@ html, body, p {
 
 * {
     color: var(--text-primary);
+    font-family: 'nanumsquare';
 }
 
 button {

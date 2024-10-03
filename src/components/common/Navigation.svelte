@@ -48,6 +48,7 @@
         box-sizing: border-box;
         border-radius: 15px;
         transition: background-color 0.3s ease;
+        font-weight: bold;
     }
 
     .item img {

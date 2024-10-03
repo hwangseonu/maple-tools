@@ -10,7 +10,7 @@
 
     let items = [
       {name: "주간보스 결정", path: "./boss", image: "./assets/images/crystal.png"},
-      {name: "설정", path: "./setting", image: undefined}
+      {name: "설정", path: "./setting", image: './assets/images/setting.png'}
     ]
 
     onMount(() => {
