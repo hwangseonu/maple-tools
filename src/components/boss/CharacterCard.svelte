@@ -55,9 +55,16 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         overflow: hidden;
-        width: 500px; /* 가로 배열로 넓이가 넉넉하도록 설정 */
+        width: 500px;
         padding: 20px;
         cursor: pointer;
+    }
+    
+    @media (max-width: 768px) {
+        .card {
+            width: 100%;
+
+        }
     }
 
     .card-image {
@@ -83,9 +90,10 @@
     }
 
     .boss-list {
-        display: flex;
-        height: 52px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(29px, 1fr));
         gap: 5px;
+        min-height: 53px;
     }
 
     img.easy {
@@ -109,6 +117,8 @@
     }
 
     .badge {
+        width: 29px;
+        box-sizing: border-box;
         height: 15px;
         line-height: 15px;
         font-size: xx-small;

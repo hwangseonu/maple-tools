@@ -43,7 +43,14 @@
         padding: 10px;
         color: var(--text-primary);
     }
+    
+    @media (max-width: 768px) {
+        .handle {
+            display: none;
+        }
+    }
 </style>
+
 <div class="list"
          use:dragHandleZone={{items, flipDurationMs, dropTargetStyle: { outline: 'none' }}}
          on:consider={handleDndConsider}

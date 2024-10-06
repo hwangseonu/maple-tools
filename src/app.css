@@ -85,6 +85,19 @@ button:active {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 감소 */
 }
 
+button.nostyle {
+    display: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+}
+
+button.nostyle:hover {
+    background: none;
+    box-shadow: none;
+    transform: none;
+}
+
 ul {
     padding: 0;
 }

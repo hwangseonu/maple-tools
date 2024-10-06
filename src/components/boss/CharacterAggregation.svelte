@@ -47,6 +47,13 @@
         gap: 16px;
         float: left;
     }
+    
+    @media (max-width: 768px) {
+        .wrapper {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
 
     .crystal, .meso {
         display: flex;

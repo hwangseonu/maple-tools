@@ -23,7 +23,7 @@
 <div class="page">
     <Navigation items={items} bind:currentPath={currentPath}/>
     <div class="contents">
-        <Header title={title}/>
+        <Header title={title} items={items}/>
         <slot />
     </div>
 </div>
@@ -35,5 +35,11 @@
 
     .contents {
         padding: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .contents {
+            padding: 0;
+        }
     }
 </style>

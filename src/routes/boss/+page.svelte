@@ -12,6 +12,8 @@
   let characters: Character[] = [];
   let currentCharacter: Character | undefined;
 
+  let isMobile: boolean
+
   // utils
   const openModal = (character: Character | undefined) => {
     showModal = true;
@@ -23,6 +25,7 @@
   }
 
   onMount(() => {
+    isMobile = window.matchMedia("(max-width: 768px)").matches;
     const saved = localStorage.getItem("boss-list")
     if (saved) {
       characters = JSON.parse(saved);
@@ -60,7 +63,7 @@
   }
 
   function handleDelete(event: CustomEvent) {
-    const { character } = event.detail;
+    const {character} = event.detail;
 
     if (!character) return;
 
@@ -75,7 +78,7 @@
   }
 
   function handleClickItem(event: CustomEvent) {
-    const { target } = event.detail;
+    const {target} = event.detail;
 
     openModal(target as Character);
   }
@@ -99,16 +102,21 @@
             on:submit={handleSubmit}
             on:delete={handleDelete}
     />
+    {#if isMobile}
+        <CharacterAggregation characters={characters} on:disableAll={handleDisableAll}/>
+    {/if}
     <div class="contents">
         <CharacterList bind:items={characters} on:click={handleClickItem}/>
         <button on:click={() => openModal(undefined)}>캐릭터 추가</button>
     </div>
-
-    <CharacterAggregation characters={characters} on:disableAll={handleDisableAll}/>
+    {#if !isMobile}
+        <CharacterAggregation characters={characters} on:disableAll={handleDisableAll}/>
+    {/if}
 </div>
 
 <style>
     .wrapper {
+        width: 100%;
     }
 
     .contents {
@@ -119,6 +127,13 @@
     button {
         margin-top: 10px;
         width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .contents {
+            width: 100%;
+            margin-left: 0;
+        }
     }
 </style>
 

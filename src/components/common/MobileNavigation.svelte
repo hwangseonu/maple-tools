@@ -1,34 +1,51 @@
 <script lang="ts">
+  import {emptyFunction} from "$lib/types";
+
   export let items: { name: string, path: string, image: string | undefined }[] = [];
   export let currentPath = "/";
+
+  export let show: boolean
+  export let close: () => void
 
   function setCurrentPath(path: string) {
     currentPath = path;
   }
 </script>
 
-<nav>
-    {#each items as item, index}
-        <a on:click={() => setCurrentPath(item.path)} href={item.path}>
-            <div class="item" class:selected={currentPath === item.path}>
-                {#if item.image !== undefined}
-                    <img src={item.image} alt={item.name}/>
-                {/if}
-                {item.name}
+<div class="mobile-navigation" class:show={show} on:click={close} role="button" tabindex="0" on:keydown={emptyFunction}>
+    <div class="nav" on:click|stopPropagation role="button" tabindex="0" on:keydown={emptyFunction}>
+        {#each items as item, index}
+            <a on:click={() => setCurrentPath(item.path)} href={item.path}>
+                <div class="item" class:selected={currentPath === item.path}>
+                    {#if item.image !== undefined}
+                        <img src={item.image} alt={item.name}/>
+                    {/if}
+                    {item.name}
 
-            </div>
-            <hr />
-        </a>
-    {/each}
-</nav>
+                </div>
+                <hr/>
+            </a>
+        {/each}
+    </div>
+</div>
 
 <style>
-    nav {
-        position: sticky;
+    .mobile-navigation {
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        position: fixed;
         top: 0;
         left: 0;
-        min-width: 300px;
-        height: 100vh;
+        z-index: 1;
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .nav {
+        width: 100vw;
         padding: 16px;
         box-sizing: border-box;
         background: var(--neutral-light);
@@ -69,11 +86,5 @@
 
     hr {
         border: 1px solid var(--neutral-dark)
-    }
-
-    @media (max-width: 768px) {
-        nav {
-            display: none;
-        }
     }
 </style>
