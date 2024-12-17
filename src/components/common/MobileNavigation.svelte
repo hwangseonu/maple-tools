@@ -1,29 +1,45 @@
 <script lang="ts">
-  import {emptyFunction} from "$lib/types";
+    import { emptyFunction } from "$lib/types";
 
-  export let items: { name: string, path: string, image: string | undefined }[] = [];
-  export let currentPath = "/";
+    export let items: {
+        name: string;
+        path: string;
+        image: string | undefined;
+    }[] = [];
+    export let currentPath = "/";
 
-  export let show: boolean
-  export let close: () => void
+    export let show: boolean;
+    export let close: () => void;
 
-  function setCurrentPath(path: string) {
-    currentPath = path;
-  }
+    function setCurrentPath(path: string) {
+        currentPath = path;
+    }
 </script>
 
-<div class="mobile-navigation" class:show={show} on:click={close} role="button" tabindex="0" on:keydown={emptyFunction}>
-    <div class="nav" on:click|stopPropagation role="button" tabindex="0" on:keydown={emptyFunction}>
-        {#each items as item, index}
+<div
+    class="mobile-navigation"
+    class:show
+    on:click={close}
+    role="button"
+    tabindex="0"
+    on:keydown={emptyFunction}
+>
+    <div
+        class="nav"
+        on:click|stopPropagation
+        role="button"
+        tabindex="0"
+        on:keydown={emptyFunction}
+    >
+        {#each items as item}
             <a on:click={() => setCurrentPath(item.path)} href={item.path}>
                 <div class="item" class:selected={currentPath === item.path}>
                     {#if item.image !== undefined}
-                        <img src={item.image} alt={item.name}/>
+                        <img src={item.image} alt={item.name} />
                     {/if}
                     {item.name}
-
                 </div>
-                <hr/>
+                <hr />
             </a>
         {/each}
     </div>
@@ -85,6 +101,6 @@
     }
 
     hr {
-        border: 1px solid var(--neutral-dark)
+        border: 1px solid var(--neutral-dark);
     }
 </style>

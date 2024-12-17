@@ -2,6 +2,7 @@
   import {createEventDispatcher} from 'svelte';
   import SelectableList from "./BossSelector.svelte";
   import {type BossCrystal, type Character, emptyFunction} from "$lib/types";
+    import { getIndex } from '$lib/boss';
 
   // props
   export let onClose: () => void;
@@ -22,7 +23,7 @@
 
   // functions
   function handleSubmit() {
-    dispatch('submit', {name, selected})
+    dispatch('submit', { name, selected: selected.sort((a, b) => getIndex(a) - getIndex(b)) })
   }
 
   function handleDelete() {

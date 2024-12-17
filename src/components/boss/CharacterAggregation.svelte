@@ -1,30 +1,35 @@
 <script lang="ts">
-  import {createEventDispatcher} from "svelte";
-  import type {Character} from "$lib/types";
-  import {crystalSum} from "$lib/utils";
+    import { createEventDispatcher } from "svelte";
+    import type { Character } from "$lib/types";
+    import { crystalSum } from "$lib/utils";
 
-  export let characters: Character[];
+    export let characters: Character[];
 
-  $: enabled = characters.filter((c) => c.toggle);
-  $: aggregate = {
-    crystal: {
-      sum: enabled.reduce((prev, curr) => prev += crystalSum(curr), 0),
-      count: enabled.reduce((prev, curr) => prev += curr.boss.length, 0),
-      max: characters.reduce((prev, curr) => prev += curr.boss.length, 0),
+    $: enabled = characters.filter((c) => c.toggle);
+    $: aggregate = {
+        crystal: {
+            sum: enabled.reduce((prev, curr) => (prev += crystalSum(curr)), 0),
+            count: enabled.reduce(
+                (prev, curr) => (prev += curr.boss.length),
+                0,
+            ),
+            max: characters.reduce(
+                (prev, curr) => (prev += curr.boss.length),
+                0,
+            ),
+        },
+    };
+
+    const dispatch = createEventDispatcher();
+
+    function handleDisableAll() {
+        dispatch("disableAll");
     }
-  }
-
-  const dispatch = createEventDispatcher();
-
-  function handleDisableAll() {
-    dispatch('disableAll')
-  }
-
 </script>
 
 <div class="wrapper">
     <div class="crystal">
-        <img src="./assets/images/crystal.png" alt="crystal"/>
+        <img src="./assets/images/crystal.png" alt="crystal" />
         <span>{aggregate.crystal.count} / {aggregate.crystal.max}</span>
     </div>
     <div class="meso">
@@ -47,7 +52,7 @@
         gap: 16px;
         float: left;
     }
-    
+
     @media (max-width: 768px) {
         .wrapper {
             width: 100%;
@@ -55,16 +60,17 @@
         }
     }
 
-    .crystal, .meso {
+    .crystal,
+    .meso {
         display: flex;
         align-items: center;
         font-weight: bold;
     }
 
-    .crystal img, .meso img {
+    .crystal img,
+    .meso img {
         width: 24px;
         object-fit: contain;
         margin-right: 10px;
     }
-
 </style>

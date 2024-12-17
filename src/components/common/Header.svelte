@@ -1,19 +1,23 @@
 <script lang="ts">
-  import MobileNavigation from "./MobileNavigation.svelte";
-  import {onMount} from "svelte";
+    import MobileNavigation from "./MobileNavigation.svelte";
+    import { onMount } from "svelte";
 
-  export let title: string;
-  export let items: { name: string, path: string, image: string | undefined }[] = [];
+    export let title: string;
+    export let items: {
+        name: string;
+        path: string;
+        image: string | undefined;
+    }[] = [];
 
-  let showMenu: boolean = false;
-  let isMobile: boolean = false;
+    let showMenu: boolean = false;
+    let isMobile: boolean = false;
 
-  onMount(() => {
-    isMobile = window.matchMedia("(max-width: 768px)").matches;
-  })
+    onMount(() => {
+        isMobile = window.matchMedia("(max-width: 768px)").matches;
+    });
 
-  const openMenu = () => showMenu = true;
-  const closeMenu = () => showMenu = false;
+    const openMenu = () => (showMenu = true);
+    const closeMenu = () => (showMenu = false);
 </script>
 
 <header>
@@ -22,7 +26,7 @@
         <i class="fas fa-bars"></i>
     </button>
     {#if isMobile}
-        <MobileNavigation show={showMenu} items={items} close={closeMenu}/>
+        <MobileNavigation show={showMenu} {items} close={closeMenu} />
     {/if}
 </header>
 

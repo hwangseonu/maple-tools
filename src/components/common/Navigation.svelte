@@ -1,21 +1,26 @@
 <script lang="ts">
-  export let items: { name: string, path: string, image: string | undefined }[] = [];
-  export let currentPath = "/";
+    import { base } from "$app/paths";
 
-  function setCurrentPath(path: string) {
-    currentPath = path;
-  }
+    export let items: {
+        name: string;
+        path: string;
+        image: string | undefined;
+    }[] = [];
+    let currentPath: string = base;
+
+    function setCurrentPath(path: string) {
+        currentPath = path;
+    }
 </script>
 
 <nav>
-    {#each items as item, index}
+    {#each items as item}
         <a on:click={() => setCurrentPath(item.path)} href={item.path}>
             <div class="item" class:selected={currentPath === item.path}>
                 {#if item.image !== undefined}
-                    <img src={item.image} alt={item.name}/>
+                    <img src={item.image} alt={item.name} />
                 {/if}
                 {item.name}
-
             </div>
             <hr />
         </a>
@@ -68,7 +73,7 @@
     }
 
     hr {
-        border: 1px solid var(--neutral-dark)
+        border: 1px solid var(--neutral-dark);
     }
 
     @media (max-width: 768px) {

@@ -1,29 +1,37 @@
 <script lang="ts">
-  import {createEventDispatcher} from "svelte";
-  import bossList, {type BossDifficulty, type BossName} from "$lib/boss";
-  import {type Character, emptyFunction} from "$lib/types";
-  import ToggleSwitch from "../common/ToggleSwitch.svelte";
-  import {crystalSum} from "$lib/utils";
+    import { createEventDispatcher } from "svelte";
+    import { type Character, emptyFunction } from "$lib/types";
+    import ToggleSwitch from "../common/ToggleSwitch.svelte";
+    import { crystalSum } from "$lib/utils";
 
-  export let character: Character;
-  export let toggle: boolean;
+    export let character: Character;
+    export let toggle: boolean;
 
-  const dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
 
-  function onClick() {
-    dispatch("click")
-  }
-
+    function onClick() {
+        dispatch("click");
+    }
 </script>
 
-<div role="button" tabindex="0" on:keydown={emptyFunction} class="card" on:click={onClick}>
-    <img src={character.image} alt="Character" class="card-image"/>
+<div
+    role="button"
+    tabindex="0"
+    on:keydown={emptyFunction}
+    class="card"
+    on:click={onClick}
+>
+    <img src={character.image} alt="Character" class="card-image" />
     <div class="card-content">
         <h2>{character.name}</h2>
         <div class="boss-list">
             {#each character.boss as boss}
                 <div class="card-boss">
-                    <img class="{boss.difficulty}" src="./assets/images/boss/{boss.name}.png" alt="Boss"/>
+                    <img
+                        class={boss.difficulty}
+                        src="./assets/images/boss/{boss.name}.png"
+                        alt="Boss"
+                    />
                     <p class="badge {boss.difficulty}">
                         {boss.difficulty[0].toUpperCase()}
                     </p>
@@ -33,15 +41,17 @@
         <div class="sum">
             <div class="crystal-meso">
                 <div class="crystal">
-                    <img src="./assets/images/crystal.png" alt="crystal"/>
+                    <img src="./assets/images/crystal.png" alt="crystal" />
                     <span class="amount">{character.boss.length}개</span>
                 </div>
                 <div class="meso">
-                    <img src="./assets/images/meso.png" alt="meso"/>
-                    <span class="amount">{crystalSum(character).toLocaleString()} 메소</span>
+                    <img src="./assets/images/meso.png" alt="meso" />
+                    <span class="amount"
+                        >{crystalSum(character).toLocaleString()} 메소</span
+                    >
                 </div>
             </div>
-            <ToggleSwitch bind:checked={toggle}/>
+            <ToggleSwitch bind:checked={toggle} />
         </div>
     </div>
 </div>
@@ -53,17 +63,18 @@
         background-color: var(--neutral-light);
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
         overflow: hidden;
         width: 500px;
         padding: 20px;
         cursor: pointer;
     }
-    
+
     @media (max-width: 768px) {
         .card {
             width: 100%;
-
         }
     }
 
@@ -174,20 +185,23 @@
         flex-direction: column;
     }
 
-    .sum .crystal, .sum .meso {
+    .sum .crystal,
+    .sum .meso {
         display: flex;
         align-items: center;
         font-size: small;
         font-weight: bold;
     }
 
-    .crystal img, .meso img {
+    .crystal img,
+    .meso img {
         width: 15px;
         object-fit: contain;
         margin-right: 5px;
     }
 
-    .crystal .amount, .meso .amount {
+    .crystal .amount,
+    .meso .amount {
         margin-top: 2px;
     }
 </style>

@@ -226,4 +226,8 @@ export const Boss: BossType[] = [
   }
 ]
 
+export function getIndex(target: {name: BossName, difficulty: BossDifficulty}): number {
+  return Boss.findIndex(boss => boss.name === target.name && boss.difficulty === target.difficulty);
+}
+
 export default Boss;
