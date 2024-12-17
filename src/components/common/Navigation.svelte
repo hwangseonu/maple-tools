@@ -9,6 +9,7 @@
     let currentPath: string = base;
 
     function setCurrentPath(path: string) {
+        console.log(base);
         currentPath = path;
     }
 </script>
