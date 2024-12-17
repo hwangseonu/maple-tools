@@ -3,8 +3,9 @@
     import "../app.css";
     import Navigation from "../components/common/Navigation.svelte";
     import Header from "../components/common/Header.svelte";
+    import { onMount } from "svelte";
 
-    let currentPath = "./";
+    let currentPath = "/";
     $: title = items.find((value) => value.path === currentPath)?.name ?? "";
 
     let items = [
@@ -34,10 +35,14 @@
             image: "./assets/images/navigation/setting.png",
         },
     ];
+
+    onMount(() => {
+        currentPath = window.location.pathname
+    })
 </script>
 
 <div class="page">
-    <Navigation {items} />
+    <Navigation {items} {currentPath}/>
     <div class="contents">
         <Header {title} {items} />
         <slot />

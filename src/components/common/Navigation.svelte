@@ -6,17 +6,16 @@
         path: string;
         image: string | undefined;
     }[] = [];
-    let currentPath: string = base;
+    export let currentPath: string;
 
     function setCurrentPath(path: string) {
-        console.log(base);
         currentPath = path;
     }
 </script>
 
 <nav>
     {#each items as item}
-        <a on:click={() => setCurrentPath(item.path)} href={item.path}>
+        <a on:click={() => setCurrentPath(item.path)} href="{base}/{item.path}">
             <div class="item" class:selected={currentPath === item.path}>
                 {#if item.image !== undefined}
                     <img src={item.image} alt={item.name} />
