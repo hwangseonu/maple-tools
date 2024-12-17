@@ -4,6 +4,7 @@
     import Navigation from "../components/common/Navigation.svelte";
     import Header from "../components/common/Header.svelte";
     import { onMount } from "svelte";
+    import { base } from "$app/paths";
 
     let currentPath = "/";
     $: title = items.find((value) => value.path === currentPath)?.name ?? "";
@@ -37,7 +38,7 @@
     ];
 
     onMount(() => {
-        currentPath = window.location.pathname
+        currentPath = window.location.pathname.replace(base, "/")
     })
 </script>
 
