@@ -12,12 +12,12 @@
     let items = [
         {
             name: "주간보스 결정",
-            path: "/boss",
+            path: `${base}/boss`,
             image: "./assets/images/navigation/crystal.png",
         },
         {
             name: "룰렛",
-            path: "/roulette",
+            path: "./roulette",
             image: "./assets/images/navigation/crystal.png",
         },
         {
@@ -32,7 +32,7 @@
         },
         {
             name: "설정",
-            path: "/setting",
+            path: "./setting",
             image: "./assets/images/navigation/setting.png",
         },
     ];

@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { base } from "$app/paths";
-
     export let items: {
         name: string;
         path: string;
@@ -15,7 +13,7 @@
 
 <nav>
     {#each items as item}
-        <a on:click={() => setCurrentPath(item.path)} href="{base}{item.path}">
+        <a on:click={() => setCurrentPath(item.path)} href="{item.path}">
             <div class="item" class:selected={currentPath === item.path}>
                 {#if item.image !== undefined}
                     <img src={item.image} alt={item.name} />
