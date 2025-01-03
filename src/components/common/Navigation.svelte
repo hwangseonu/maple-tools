@@ -1,26 +1,23 @@
 <script lang="ts">
-    export let items: {
-        name: string;
-        path: string;
-        image: string | undefined;
-    }[] = [];
-    export let currentPath: string;
+    import {SITE_NAV_ITEMS} from "../../stores/siteinfo";
+    import type {NavItem} from "$lib/types";
+    import {currentPage} from "../../stores/currentPage";
 
-    function setCurrentPath(path: string) {
-        currentPath = path;
+    function setCurrentPage(page: NavItem) {
+        currentPage.set(page)
     }
 </script>
 
 <nav>
-    {#each items as item}
-        <a on:click={() => setCurrentPath(item.path)} href="{item.path}">
-            <div class="item" class:selected={currentPath === item.path}>
+    {#each SITE_NAV_ITEMS as item}
+        <a on:click={() => setCurrentPage(item)} href="{item.link}">
+            <div class="item" class:selected={$currentPage.link === item.link}>
                 {#if item.image !== undefined}
-                    <img src={item.image} alt={item.name} />
+                    <img src={item.image} alt={item.name}/>
                 {/if}
                 {item.name}
             </div>
-            <hr />
+            <hr/>
         </a>
     {/each}
 </nav>

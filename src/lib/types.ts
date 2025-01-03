@@ -20,3 +20,9 @@ export type Setting = {
   NEXON_API_URL: string,
   NEXON_API_TOKEN: string,
 }
+
+export type NavItem = {
+  name: string,
+  link: string,
+  image: string,
+}

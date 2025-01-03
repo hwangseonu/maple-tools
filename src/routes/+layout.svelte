@@ -3,50 +3,27 @@
     import "../app.css";
     import Navigation from "../components/common/Navigation.svelte";
     import Header from "../components/common/Header.svelte";
-    import { onMount } from "svelte";
-    import { base } from "$app/paths";
-
-    let currentPath = "/";
-    $: title = items.find((value) => value.path === currentPath)?.name ?? "";
-
-    let items = [
-        {
-            name: "주간보스 결정",
-            path: `${base}/boss`,
-            image: "./assets/images/navigation/crystal.png",
-        },
-        {
-            name: "룰렛",
-            path: "./roulette",
-            image: "./assets/images/navigation/crystal.png",
-        },
-        {
-            name: "메이플지지",
-            path: "https://maple.gg/",
-            image: "./assets/images/navigation/maplegg.png",
-        },
-        {
-            name: "환산주스탯",
-            path: "https://maplescouter.com/",
-            image: "./assets/images/navigation/maplescouter.png",
-        },
-        {
-            name: "설정",
-            path: "./setting",
-            image: "./assets/images/navigation/setting.png",
-        },
-    ];
+    import {onMount} from "svelte";
+    import {currentPage} from "../stores/currentPage";
+    import {browser} from "$app/environment";
+    import {SITE_NAV_ITEMS} from "../stores/siteinfo";
 
     onMount(() => {
-        currentPath = window.location.pathname.replace(base, "/")
+        if (browser) {
+            // eslint-disable-next-line no-undef
+            const pathname = "./" + window.location.pathname.split("/").pop()
+            const item = SITE_NAV_ITEMS.find(item => item.link === pathname)
+
+            if (item) currentPage.set(item)
+        }
     })
 </script>
 
 <div class="page">
-    <Navigation {items} {currentPath}/>
+    <Navigation/>
     <div class="contents">
-        <Header {title} {items} />
-        <slot />
+        <Header title={ $currentPage.name }/>
+        <slot/>
     </div>
 </div>
 
