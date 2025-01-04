@@ -56,7 +56,7 @@
       // eslint-disable-next-line no-undef
       if (browser) alert("같은 이름의 캐릭터를 등록할 수 없습니다.");
     } else {
-      characters.update(arr => [...arr, character]);
+      characters.update((arr) => [...arr, character]);
     }
     closeModal();
   }
