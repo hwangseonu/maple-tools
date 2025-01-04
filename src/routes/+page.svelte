@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
+  // import { goto } from '$app/navigation';
 
-  goto("./boss");
+  // goto("./boss");
 </script>
 
 <style lang="css">
