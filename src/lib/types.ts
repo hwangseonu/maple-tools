@@ -1,6 +1,7 @@
-import type {BossDifficulty, BossName} from "$lib/boss";
+import type { BossDifficulty, BossName } from "$lib/boss";
 
-export const emptyFunction = () => {};
+export const emptyFunction = () => {
+};
 
 export type Character = {
   id: string,
@@ -16,7 +17,7 @@ export type BossCrystal = {
   members: number,
 }
 
-export type Setting = {
+export type NexonOption = {
   NEXON_API_URL: string,
   NEXON_API_TOKEN: string,
 }

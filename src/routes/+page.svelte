@@ -1,4 +1,9 @@
-<script>
+<script lang="ts">
+  import { goto } from '$app/navigation';
+
+  goto("./boss");
 </script>
 
-<style></style>
+<style lang="css">
+
+</style>

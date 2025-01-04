@@ -1,10 +1,10 @@
 <script lang="ts">
   import { mapleJobs } from "$lib/jobs";
   import { onMount } from "svelte";
-    import Wheel from "../../components/roulette/Wheel.svelte";
+  import Wheel from "../../components/roulette/Wheel.svelte";
 
   let count: { [key: string]: number } = {};
-  $: items = Object.fromEntries(Object.entries(count).filter(([key, value]) => value > 0));
+  $: items = Object.fromEntries(Object.entries(count).filter(([ , value ]) => value > 0));
 
   onMount(() => {
     mapleJobs.forEach((item) => count[item] = 0);
@@ -18,19 +18,19 @@
         {job}
         <div class="count-container">
           <button class="minus-button" on:click={() => count[job] > 0 ? count[job]-- : undefined}>-</button>
-          <input type="number" class="count-input" bind:value={count[job]} />
+          <input type="number" class="count-input" bind:value={count[job]}/>
           <button class="plus-button" on:click={() => count[job]++}>+</button>
         </div>
       </div>
     {/each}
   </div>
-  <Wheel items={items} />
+  <Wheel items={items}/>
 </div>
 
-<style>
+<style lang="css">
   .roulette-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(4, 1fr);
     column-gap: 32px;
     row-gap: 12px;
   }

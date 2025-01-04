@@ -1,4 +1,26 @@
-export type BossName = "시그너스" | "힐라" | "핑크빈" | "자쿰" | "블러디퀸" | "반반" | "피에르" | "매그너스" | "벨룸" | "파풀라투스" | "스우" | "데미안" | "가디언 엔젤 슬라임" | "루시드" | "윌" | "더스크" | "듄켈" | "진 힐라" | "선택받은 세렌" | "감시자 칼로스" | "카링" | "림보";
+export type BossName =
+  "시그너스"
+  | "힐라"
+  | "핑크빈"
+  | "자쿰"
+  | "블러디퀸"
+  | "반반"
+  | "피에르"
+  | "매그너스"
+  | "벨룸"
+  | "파풀라투스"
+  | "스우"
+  | "데미안"
+  | "가디언 엔젤 슬라임"
+  | "루시드"
+  | "윌"
+  | "더스크"
+  | "듄켈"
+  | "진 힐라"
+  | "선택받은 세렌"
+  | "감시자 칼로스"
+  | "카링"
+  | "림보";
 export type BossDifficulty = 'easy' | 'normal' | 'hard' | 'chaos' | 'extreme';
 
 // export type
@@ -226,7 +248,7 @@ export const Boss: BossType[] = [
   }
 ]
 
-export function getIndex(target: {name: BossName, difficulty: BossDifficulty}): number {
+export function getIndex(target: { name: BossName, difficulty: BossDifficulty }): number {
   return Boss.findIndex(boss => boss.name === target.name && boss.difficulty === target.difficulty);
 }
 
