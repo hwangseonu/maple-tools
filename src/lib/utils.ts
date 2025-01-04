@@ -1,6 +1,12 @@
 import type {BossCrystal, Character, Setting} from "$lib/types";
 import {Boss} from "$lib/boss";
 
+export function isMobileMedia(): boolean {
+  if (window)
+    return window.matchMedia('(max-width: 600px)').matches;
+  else
+    return false;
+}
 
 export const getBossCrystal = (boss: BossCrystal): number => {
   return Boss.find(({name, difficulty}) => name == boss.name && difficulty == boss.difficulty)?.crystal ?? 0

@@ -4,12 +4,12 @@
   import CharacterList from "../../components/boss/CharacterList.svelte";
   import AddCharacterModal from "../../components/modal/AddCharacterModal.svelte";
   import CharacterAggregation from "../../components/boss/CharacterAggregation.svelte";
-  import { getProfileImage } from "$lib/utils";
+  import {getProfileImage, isMobileMedia} from "$lib/utils";
+  import {characters} from "../../stores/characters";
+  import {browser} from "$app/environment";
 
   // state
   let showModal: boolean = false;
-
-  let characters: Character[] = [];
   let currentCharacter: Character | undefined;
 
   let isMobile: boolean;
@@ -25,17 +25,8 @@
   };
 
   onMount(() => {
-    isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const saved = localStorage.getItem("boss-list");
-    if (saved) {
-      characters = JSON.parse(saved);
-    }
+    isMobile = isMobileMedia();
   });
-
-  $: if (characters.length != 0) {
-    if (typeof localStorage !== "undefined")
-      localStorage.setItem("boss-list", JSON.stringify(characters));
-  }
 
   // functions
   async function handleSubmit(event: CustomEvent) {
@@ -53,14 +44,19 @@
     };
 
     if (currentCharacter != undefined) {
-      const index = characters.findIndex(
+      const index = $characters.findIndex(
         (value) => value.name === currentCharacter?.name,
       );
-      characters[index] = character;
-    } else if (characters.some((value) => value.name === name)) {
-      alert("같은 이름의 캐릭터를 등록할 수 없습니다.");
+      characters.update(arr => {
+        const copied = [...arr];
+        copied[index] = character;
+        return copied;
+      })
+    } else if ($characters.some((value) => value.name === name)) {
+      // eslint-disable-next-line no-undef
+      if (browser) alert("같은 이름의 캐릭터를 등록할 수 없습니다.");
     } else {
-      characters = [...characters, character];
+      characters.update(arr => [...arr, character]);
     }
     closeModal();
   }
@@ -70,13 +66,12 @@
 
     if (!character) return;
 
-    const index = characters.findIndex(
+    const index = $characters.findIndex(
       (value) => value.name == character?.name,
     );
 
     if (index >= 0) {
-      characters.splice(index, 1);
-      characters = characters;
+      characters.update(arr => arr.splice(index, 1));
     }
 
     closeModal();
@@ -88,11 +83,11 @@
     openModal(target as Character);
   }
 
-  function handleDisableAll(event: CustomEvent) {
-    characters = characters.map((character) => ({
+  function handleDisableAll() {
+    characters.update( arr => arr.map((character) => ({
       ...character,
       toggle: false,
-    }));
+    })));
   }
 </script>
 
@@ -108,14 +103,14 @@
     on:delete={handleDelete}
   />
   {#if isMobile}
-    <CharacterAggregation {characters} on:disableAll={handleDisableAll} />
+    <CharacterAggregation characters={$characters} on:disableAll={handleDisableAll} />
   {/if}
   <div class="contents">
-    <CharacterList bind:items={characters} on:click={handleClickItem} />
+    <CharacterList bind:items={$characters} on:click={handleClickItem} />
     <button on:click={() => openModal(undefined)}>캐릭터 추가</button>
   </div>
   {#if !isMobile}
-    <CharacterAggregation {characters} on:disableAll={handleDisableAll} />
+    <CharacterAggregation characters={$characters} on:disableAll={handleDisableAll} />
   {/if}
 </div>
 
