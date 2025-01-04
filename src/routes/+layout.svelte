@@ -5,12 +5,13 @@
   import Navigation from "../components/common/Navigation.svelte";
   import Header from "../components/common/Header.svelte";
   import { currentPage } from "../stores/currentPage";
+
 </script>
 
 <div class="page">
   <Navigation/>
   <div class="contents">
-    <Header title={ $currentPage.name }/>
+    <Header title={ $currentPage?.name ?? ""}/>
     <slot/>
   </div>
 </div>

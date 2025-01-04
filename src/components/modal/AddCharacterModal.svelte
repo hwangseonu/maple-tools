@@ -3,8 +3,8 @@
   import SelectableList from "./BossSelector.svelte";
   import {type BossCrystal, type Character, emptyFunction} from "$lib/types";
     import { getIndex } from '$lib/boss';
+  // import CharacterPresets from './CharacterPresets.svelte';
 
-  // props
   export let onClose: () => void;
   export let isOpen: boolean = false; // 모달 열림 상태
   $: if (!isOpen) { // 모달이 닫히면 값을 초기화
@@ -12,13 +12,11 @@
     selected = [];
   }
 
-  // state
   export let current: Character | undefined;
   export let name: string;
   export let selected: BossCrystal[];
   export let mode: 'edit' | 'add';
 
-  // utils
   const dispatch = createEventDispatcher();
 
   // functions
@@ -53,6 +51,7 @@
                         </button>
                     </div>
                 </div>
+<!--                <CharacterPresets />-->
                 <SelectableList bind:selected={selected}/>
                 <div class="modal-actions">
                     <button type="button" class="cancel" on:click={onClose}>취소</button>
