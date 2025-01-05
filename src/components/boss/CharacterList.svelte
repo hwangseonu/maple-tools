@@ -1,76 +1,76 @@
 <script lang="ts">
-    import { flip } from "svelte/animate";
-    import { dragHandleZone, dragHandle } from "svelte-dnd-action";
-    import type { Character } from "$lib/types";
-    import CharacterCard from "./CharacterCard.svelte";
-    import { createEventDispatcher } from "svelte";
-    export let items: Character[];
+  import { createEventDispatcher } from "svelte";
+  import { flip } from "svelte/animate";
+  import { dragHandleZone, dragHandle } from "svelte-dnd-action";
+  import type { Character } from "$lib/types";
+  import CharacterCard from "./CharacterCard.svelte";
 
-    const flipDurationMs = 300;
+  export let items: Character[];
+  const flipDurationMs = 300;
+  const dispatch = createEventDispatcher();
 
-    const dispatch = createEventDispatcher();
+  function handleDndConsider(event: CustomEvent) {
+    items = event.detail.items;
+  }
 
-    function handleDndConsider(event: CustomEvent) {
-        items = event.detail.items;
-    }
-    function handleDndFinalize(event: CustomEvent) {
-        items = event.detail.items;
-    }
+  function handleDndFinalize(event: CustomEvent) {
+    items = event.detail.items;
+  }
 
-    function handleClick(item: Character) {
-        dispatch("click", { target: item });
-    }
+  function handleClick(item: Character) {
+    dispatch("click", { target: item });
+  }
 </script>
 
 <div
-    class="list"
-    use:dragHandleZone={{
+  class="list"
+  use:dragHandleZone={{
         items,
         flipDurationMs,
-        dropTargetStyle: { outline: "none" },
+        dropTargetStyle: { outline: "none" }
     }}
-    on:consider={handleDndConsider}
-    on:finalize={handleDndFinalize}
+  on:consider={ handleDndConsider }
+  on:finalize={ handleDndFinalize }
 >
-    {#each items as item (item.id)}
-        <div class="list-item" animate:flip={{ duration: flipDurationMs }}>
-            <div class="handle" use:dragHandle>
-                <i class="fas fa-bars"></i>
-            </div>
-            <CharacterCard
-                character={item}
-                bind:toggle={item.toggle}
-                on:click={() => handleClick(item)}
-            />
-        </div>
-    {/each}
+  {#each items as item(item.id)}
+    <div class="list-item" animate:flip={ { duration: flipDurationMs } }>
+      <div class="handle" use:dragHandle>
+        <i class="fas fa-bars"></i>
+      </div>
+      <CharacterCard
+        character={ item }
+        bind:toggle={ item.toggle }
+        on:click={() => handleClick(item)}
+      />
+    </div>
+  {/each}
 </div>
 
 <style>
-    .list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .list-item {
-        display: flex;
-    }
+  .list-item {
+    display: flex;
+  }
 
-    .list-item {
-        outline: none;
-    }
+  .list-item {
+    outline: none;
+  }
 
+  .handle {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 768px) {
     .handle {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        color: var(--text-primary);
+      display: none;
     }
-
-    @media (max-width: 768px) {
-        .handle {
-            display: none;
-        }
-    }
+  }
 </style>

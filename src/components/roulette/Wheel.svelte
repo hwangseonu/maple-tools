@@ -10,10 +10,12 @@
   const center = 50;
   const labelRadius = radius * 0.6;
 
-  let startAngle = 0;
+  let startAngle = -1/2 * Math.PI;
   let wheelElement: SVGElement;
   let currentRotation = 0;
   let spinTransition = "";
+
+  let selected: string | undefined = undefined;
 
   function getRandomSpins() {
     // 최소 15바퀴에서 25바퀴 사이로 늘림
@@ -39,11 +41,12 @@
   }
 
   function toggleSpin() {
-    isSpinning = !isSpinning;
-    if (isSpinning) {
-      resetWheel();
-      setTimeout(spinWheel, 0);
-    }
+    if (isSpinning) return; // 이미 회전 중이면 아무 동작도 하지 않음
+    isSpinning = true;
+    resetWheel();
+    setTimeout(spinWheel, 0);
+    setTimeout(() => isSpinning = false, 8000); // 8초 후에 회전 완료
+    setTimeout(() => console.log(getItemAtCurrentRotation()), 8000)
   }
 
   function calculatePathData(percentage: number) {
@@ -70,7 +73,30 @@
       angle: (middleAngle * 180) / Math.PI,
     };
   }
+
+  function getItemAtCurrentRotation() {
+    const anglePerSegment = 360 / sum; // 각 세그먼트가 차지하는 각도 (전체 각도 360도를 sum으로 나눔)
+    const adjustedRotation = (currentRotation % 360 + 360) % 360; // currentRotation을 0~360 범위로 조정
+
+    let accumulatedAngle = 0;
+
+    // 각 아이템의 각도를 누적하여 현재 회전 각도에 해당하는 아이템을 찾음
+    for (const [key, value] of Object.entries(items)) {
+      const percentage = value / sum;
+      const segmentAngle = percentage * 360;
+      accumulatedAngle += segmentAngle;
+
+      // 현재 회전 각도가 해당 세그먼트 범위에 속하는지 확인
+      if (adjustedRotation >= accumulatedAngle - segmentAngle && adjustedRotation < accumulatedAngle) {
+        return key; // 현재 회전 각도에 해당하는 아이템 반환
+      }
+    }
+
+    return null; // 해당 아이템을 찾지 못한 경우
+  }
 </script>
+
+<p>{ selected }</p>
 
 <div class="wheel-container">
   <svg bind:this={wheelElement} width="400" height="400" viewBox="0 0 100 100">
@@ -80,7 +106,7 @@
     >
       {#each Object.entries(items) as [key, value]}
         {@const segment = calculatePathData(value / sum)}
-        <path d={segment.path} fill={jobColors[key]} />
+        <path d={segment.path} fill={jobColors[key]}/>
 
         <text
           x={segment.labelX}
@@ -102,8 +128,7 @@
 
 <button
   on:click={toggleSpin}
-  disabled={currentRotation > 0 && spinTransition !== "none"}
->
+  disabled={currentRotation > 0 && spinTransition !== "none"}>
   {isSpinning ? "Spinning..." : "Spin"}
 </button>
 
