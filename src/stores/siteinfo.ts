@@ -7,11 +7,6 @@ export const SITE_NAV_ITEMS = [
         image: "./assets/images/navigation/crystal.png",
     },
     {
-        name: "룰렛",
-        link: "./roulette",
-        image: "./assets/images/navigation/crystal.png",
-    },
-    {
         name: "메이플지지",
         link: "https://maple.gg/",
         image: "./assets/images/navigation/maplegg.png",
@@ -20,6 +15,11 @@ export const SITE_NAV_ITEMS = [
         name: "환산주스탯",
         link: "https://maplescouter.com/",
         image: "./assets/images/navigation/maplescouter.png",
+    },
+    {
+        name: "메이플로드",
+        link: "https://mapleroad.kr/utils/exp_calculator",
+        image: "./assets/images/navigation/mapleroad.png",
     },
     {
         name: "설정",
