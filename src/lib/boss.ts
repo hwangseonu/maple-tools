@@ -78,8 +78,8 @@ export const Boss: BossType[] = [
   {"difficulty": "extreme", "name": "선택받은 세렌", "crystal": 2420000000},
   {"difficulty": "extreme", "name": "감시자 칼로스", "crystal": 2700000000},
   {"difficulty": "extreme", "name": "카링", "crystal": 3150000000},
-  {"difficulty": "hard", "name": "검은 마법사", "crystal": 1000000000},
-  {"difficulty": "extreme", "name": "검은 마법사", "crystal": 9200000000}
+  // {"difficulty": "hard", "name": "검은 마법사", "crystal": 1000000000},
+  // {"difficulty": "extreme", "name": "검은 마법사", "crystal": 9200000000}
 ]
 
 export function getIndex(target: { name: BossName, difficulty: BossDifficulty }): number {
