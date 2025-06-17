@@ -12,6 +12,11 @@ export const SITE_NAV_ITEMS = [
         image: "./assets/images/navigation/maplegg.png",
     },
     {
+        name: "츄츄지지",
+        link: "https://chuchu.gg/",
+        image: "./assets/images/navigation/chuchu.png",
+    },
+    {
         name: "환산주스탯",
         link: "https://maplescouter.com/",
         image: "./assets/images/navigation/maplescouter.png",
